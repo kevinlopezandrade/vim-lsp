@@ -10,6 +10,12 @@ function! lsp#ui#vim#output#preview(data) abort
     " Delete first empty line
     0delete _
 
+    " Substitute all %nbsp; with whitespace character
+    %s/&nbsp;/ /g
+
+    " Go back to the first line of the file
+    gg
+
     setlocal readonly nomodifiable
 
     let &l:filetype = l:ft . '.lsp-hover'
