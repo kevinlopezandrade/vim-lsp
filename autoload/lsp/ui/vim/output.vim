@@ -7,14 +7,15 @@ function! lsp#ui#vim#output#preview(data) abort
     execute &previewheight.'new'
 
     let l:ft = s:append(a:data)
-    " Delete first empty line
-    0delete _
 
     " Substitute all %nbsp; with whitespace character
-    %s/&nbsp;/ /g
+    try
+            %s/&nbsp;/ /g
+    catch /.*/
+    endtry
 
-    " Go back to the first line of the file
-    gg
+    " Delete first empty line
+    0delete _
 
     setlocal readonly nomodifiable
 
