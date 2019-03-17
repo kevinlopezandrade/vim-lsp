@@ -48,8 +48,9 @@ function! lsp#enable() abort
         let s:already_setup = 1
     endif
     let s:enabled = 1
-    if g:lsp_diagnostics_enabled && g:lsp_signs_enabled
-        call lsp#ui#vim#signs#enable()
+    if g:lsp_diagnostics_enabled
+        if g:lsp_signs_enabled | call lsp#ui#vim#signs#enable() | endif
+        if g:lsp_virtual_text_enabled | call lsp#ui#vim#virtual#enable() | endif
     endif
     call s:register_events()
 endfunction
@@ -404,6 +405,7 @@ function! s:ensure_init(buf, server_name, cb) abort
     let l:request = {
     \   'method': 'initialize',
     \   'params': {
+    \     'processId': getpid(),
     \     'capabilities': l:capabilities,
     \     'rootUri': l:root_uri,
     \     'rootPath': lsp#utils#uri_to_path(l:root_uri),
