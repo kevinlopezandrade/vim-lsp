@@ -7,6 +7,15 @@ function! lsp#ui#vim#output#preview(data) abort
     execute &previewheight.'new'
 
     let l:ft = s:append(a:data)
+
+
+    " Substitute all %nbsp; with whitespace character
+    try
+            %s/&nbsp;/ /g
+    catch /.*/
+    endtry
+
+
     " Delete first empty line
     0delete _
 
